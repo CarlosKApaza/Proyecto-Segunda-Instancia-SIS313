@@ -1,0 +1,18 @@
+# Se define el grupo de servidores de aplicacion
+upstream servidores_app {
+    server 192.168.0.102:3000;
+    server 192.168.0.103:3000;
+}
+
+# Configuracion del servidor que recibe el trafico
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    location / {
+        # Pasa la peticion al grupo de servidores definido arriba
+        proxy_pass http://servidores_app;
+    }
+}
